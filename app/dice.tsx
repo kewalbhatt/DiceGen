@@ -1,15 +1,26 @@
-import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, { useState } from 'react';
+import { Pressable, StyleSheet, Text } from 'react-native';
 
 interface Props {
   // Define your props here
 }
 
-const ComponentName: React.FC<Props> = () => {
+const DiceGenerator: React.FC<Props> = () => {
+  const [diceNumber, setDiceNumber] = useState<number | null>(null);
+
+  const rollDice = () => {
+    const random = Math.floor(Math.random() * 6) + 1;
+    setDiceNumber(random);
+  };
+
   return (
-    <View style={styles.container}>
-      <Text style={{color: '#FFA94D'}}>Touch the Screen To Start</Text>
-    </View>
+    <Pressable style={styles.container} onPress={rollDice}>
+      {diceNumber === null ? (
+        <Text style={styles.startText}>Touch the Screen To Start</Text>
+      ) : (
+        <Text style={styles.number}>{diceNumber}</Text>
+      )}
+    </Pressable>
   );
 };
 
@@ -19,6 +30,15 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
+  startText: {
+    color: '#FFA94D',
+    fontSize: 22,
+  },
+  number: {
+    fontSize: 400,
+    fontWeight: 'bold',
+    color: '#333',
+  },
 });
 
-export default ComponentName;
+export default DiceGenerator;
